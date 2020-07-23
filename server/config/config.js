@@ -14,7 +14,7 @@ let urlDB;
 if(process.env.NODE_ENV === "dev"){
     urlDB= "mongodb://localhost:27017/cafeteria";
 }else{
-    urlDB="mongodb+srv://gloris:0dYryIsRwHbEck87@cluster0.kswmy.mongodb.net/cafeteria?retryWrites=true&w=majority";
+    urlDB=process.env.MONGO_URI;
 }
 
 process.env.URLDB=urlDB;
