@@ -1,0 +1,5 @@
+0dYryIsRwHbEck87
+gloris
+
+Mongo URL
+mongodb+srv://gloris:0dYryIsRwHbEck87@cluster0.kswmy.mongodb.net/test

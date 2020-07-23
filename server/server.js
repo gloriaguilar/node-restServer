@@ -1,8 +1,11 @@
 
+require("./config/config");
 const express = require("express");
 const app     = express();
-require("./config/config");
 const bodyParser = require('body-parser');
+const mongoose = require("mongoose"); //BD
+
+
 // parse application/x-www-form-urlencoded
 //Se va a disparar cada que se realice una petición
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -10,36 +13,23 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
+//Obtener el app configurado de routes
+app.use(require("./routes/usuario"));
 
-//Get: Obtener datos
-app.get('/usuario', (req, res) => {
-    res.send("Get usuario");
-});
+//Conexion a la DB
 
-//Post insertar registro
-app.post('/usuario', (req, res) => {
+mongoose.connect(process.env.URLDB,{
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex:true
+},(err) => {
 
-    //Obtener lo que mandan en el body x-www-form-urlenconde
-    let body = req.body;
-    res.json({
-        body
-    });
-});
-
-app.put('/usuario/:id', (req, res) => {
-
-    let id = req.params.id;
-    res.send({
-        id
-    });
-});
-
-app.delete('/usuario', (req, res) => {
-    res.send("Delete usuario");
+    if(err) throw new err;
+    console.log("Base de datos Online",process.env.URLDB);
 });
 
 
 //Obtiene el valor de config.js
 app.listen(process.env.PORT, ()  =>  {
-    console.log("Escuchando en el puerto");
+    console.log("Escuchando en el puerto", process.env.PORT);
 });
