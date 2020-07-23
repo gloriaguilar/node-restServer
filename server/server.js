@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 //Obtener el app configurado de routes
-app.use(require("./routes/usuario"));
+app.use(require("./routes/index"));
 
 //Conexion a la DB
 

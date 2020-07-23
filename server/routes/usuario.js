@@ -11,11 +11,20 @@ const _ = require('underscore');
 
 //Se obtiene la config del modelo
 const Usuario = require("../models/usuario");
+
+//Middlewares
+const {verificaToken, verificaAdminRol} = require("../middlewares/autenticacion");
+
 /**PETICIONES GET, POST, PUT, DELETE**/
-
 //GET: Obtener datos
-app.get('/usuario', (req, res) => {
+app.get('/usuario',verificaToken, (req, res) => {
 
+
+    return res.json({
+        usuario:req.usuario,
+        nombre: req.usuario.nombre,
+        email: req.usuario.email
+    });
 
     //Esto es un parametro opcional
     //Se utilizara para que nos traiga el registro apartir de
@@ -50,7 +59,7 @@ app.get('/usuario', (req, res) => {
 });
 
 //POST: Insertar registro
-app.post('/usuario', (req, res) => {
+app.post('/usuario',[verificaToken,verificaAdminRol], (req, res) => {
     //Obtener lo que mandan en el body x-www-form-urlenconde
     let body = req.body;
 
@@ -81,7 +90,7 @@ app.post('/usuario', (req, res) => {
 });
 
 //PUT: Normalmente se usa para actualizar
-app.put('/usuario/:id', (req, res) => {
+app.put('/usuario/:id',[verificaToken,verificaAdminRol], (req, res) => {
 
     let id = req.params.id;
     //Obtener lo que mandan en el body x-www-form-urlenconde
@@ -110,7 +119,7 @@ app.put('/usuario/:id', (req, res) => {
 });
 
 //DELETE: Elimina elementos
-app.delete('/usuario/:id', (req, res) => {
+app.delete('/usuario/:id',[verificaToken,verificaAdminRol], (req, res) => {
 
     let id = req.params.id;
 
