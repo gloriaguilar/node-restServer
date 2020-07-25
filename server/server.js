@@ -5,6 +5,8 @@ const app     = express();
 const bodyParser = require('body-parser');
 const mongoose = require("mongoose"); //BD
 
+const path = require("path");
+
 
 // parse application/x-www-form-urlencoded
 //Se va a disparar cada que se realice una petición
@@ -17,6 +19,11 @@ app.use(bodyParser.json());
 app.use(require("./routes/index"));
 
 //Conexion a la DB
+
+//Habilitar la carpeta public
+app.use(express.static( path.resolve(__dirname, "../public" )));
+
+console.log( path.resolve(__dirname, "../public" ));
 
 mongoose.connect(process.env.URLDB,{
     useNewUrlParser: true,

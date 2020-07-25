@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://apis.google.com/js/plus.js?onload=appStart"></script>
+
+    <title>Document</title>
+</head>
+<body>
+<div class="login-button" ></div>
+</body>
+<script >
+    //googleSignIn.js
+
+    var auth2; // The Sign-In object.
+    var googleUser; // The current user.
+    /**
+     * Calls startAuth after Sign in V2 finishes setting up.
+     */
+    var appStart = function() {
+        console.log('appStart()')
+        gapi.load('auth2', initSigninV2);
+    };
+    /**
+     * Initializes Signin v2 and sets up listeners.
+     */
+    var initSigninV2 = function() {
+        auth2 = gapi.auth2.getAuthInstance({
+            client_id: '745885696536-kk6uk52akrjgdtkuk9pl2sep9tgprcrn.apps.googleusercontent.com',
+            scope: 'profile'
+        });
+
+        // Listen for sign-in state changes.
+        auth2.isSignedIn.listen(signinChanged);
+        // Listen for changes to current user.
+        auth2.currentUser.listen(userChanged);
+
+        // Sign in the user if they are currently signed in.
+        if (auth2.isSignedIn.get() == true) {
+            auth2.signIn();
+        }
+    };
+    /**
+     * Listener method for sign-out live value.
+     *
+     * @param {boolean} val the updated signed out state.
+     */
+    var signinChanged = function (val) {
+        console.log('Signin state changed to ', val);
+    };
+    /**
+     * Listener method for when the user changes.
+     *
+     * @param {GoogleUser} user the updated user.
+     */
+    var userChanged = function (user) {
+        console.log('User now: ', user);
+        googleUser = user;
+    };
+
+    $('.login-button').on('click', function() {
+        console.log('signing in')
+
+        auth2.signIn().then(function(user) {
+            //callback to handle sign in
+            onSignIn(user);
+        });
+    })
+</script>
+
+</html>
